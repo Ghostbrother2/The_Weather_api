@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather {{ city_weather.city }}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css"
+    />
+  </head>
+
+  <body>
+    <section class="section">
+      <div class="container">
+        <center>
+          <div class="center action-counter">
+            <strong class="center">
+              <p>لمعرفة حالة الطقس</p>
+            </strong>
+          </div>
+        </center>
+        <br />
+
+        <div class="columns">
+          <div class="column is-offset-4 is-4">
+            <form method="POST">
+              {% csrf_token %}
+              <div class="field has-addons">
+                <div class="control is-expanded">
+                  <input
+                    class="input"
+                    type="text"
+                    name="name"
+                    placeholder="أدخل اسم المدينة"
+                    required
+                  />
+                </div>
+                <div class="control">
+                  <button type="submit" class="button is-info">
+                    إضافة المدينة
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- رسالة الخطأ -->
+    {% if error_message %}
+    <section class="section">
+      <div class="container">
+        <div class="notification is-danger">{{ error_message }}</div>
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- بيانات الطقس -->
+    <section class="section">
+      <div class="container">
+        {% for city_weather in weather_data %}
+        <div class="box">
+          <article class="media">
+            <div class="media-left">
+              <figure class="image is-64x64">
+                <img
+                  src="http://openweathermap.org/img/w/{{ city_weather.icon }}.png"
+                  alt="Weather Icon"
+                />
+              </figure>
+            </div>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>{{ city_weather.city }}</strong>
+                  <br />
+                  {{ city_weather.temperature }}°C
+                  <br />
+                  {{ city_weather.description }}
+                  <br />
+                  <strong>الوقت المحلي: </strong> {{ city_weather.local_time }}
+                </p>
+                <p>
+                  <center><b>By : Mahmoud Siad : 01028006657 </b></center>
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  </body>
+</html>
